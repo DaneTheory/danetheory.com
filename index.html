@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Branden Dane</title>
+        <meta name="author" content="Branden Dane">
+	    <meta name="description" content="Branden Dane. Developer. Designer. Professional Thinker. Caught all 150 pokemon.">
+	    <meta name="keywords" content="branden dane portfolio website drupal wordpress developer designer">
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/global.css">
+        
+<!--Vendor Hell Fixes-->
+        <script type="text/javascript" src="../js/vendor/prefixfree.min.js"></script>
+        <script type="text/javascript" src="../js/vendor/modernizr-2.6.2.min.js"></script>
+        <!--[if lt IE 9]>
+	    <script type="text/javascript" src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	    <![endif]-->
+        
+<!--THREEJS BAKED SCRIPTS-->
+        <script type="text/javascript" src="../js/vendor/three.js/Three.js"></script>
+		<script type="text/javascript" src="../js/vendor/three.js/Detector.js"></script>
+        <script type="text/javascript" src="../js/vendor/threex/THREEx.screenshot.js"></script>
+		<script type="text/javascript" src="../js/vendor/threex/THREEx.FullScreen.js"></script>
+		<script type="text/javascript" src="../js/vendor/threex/THREEx.WindowResize.js"></script>
+		<script type="text/javascript" src="../js/vendor/threex.dragpancontrols.js"></script>
+
+<!--HTML5 BOLIERPLATE SCRIPTS-->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+        <script src="js/plugins.js"></script>
+        <script src="js/main.js"></script>
+    
+<!--HELPER BAKED SCRIPTS-->
+    <script type="text/javascript" src="../js/jquery.fittext.js"></script>    
+    
+</head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+<!-- Pre-loader -->
+<div id="preloader">
+    <div id="status">&nbsp;</div>
+</div>
+        
+        <!-- three.js container -->
+    	<div id="container"></div>
+	
+	<!-- info on screen display -->
+	<div id="info">
+		<div class="bottom" id="inlineDoc"></div> 
+	</div> 
+        
+        
+<!-- Preloader Script -->
+				<script type="text/javascript">
+					//<![CDATA[
+					$(window).load(function() { // ensures window load before code fire
+						$('#status').fadeOut(); // fadeout for loader
+						$('#preloader').delay(350).fadeOut('slow'); // fadeout for white div. page wide.
+							$('body').delay(350).css({'overflow-y':'visible'});
+							})
+					//]]>
+				</script>
+
+<!--THREEJS DEFAULT SCENE--> 
+<script type="text/javascript">
+		var stats, scene, renderer, composer;
+		var camera, cameraControl;
+
+		if( !init() )	animate();
+
+		// init the scene
+		function init(){
+
+			if( Detector.webgl ){
+				renderer = new THREE.WebGLRenderer({
+					antialias		: true,	// to get smoother output
+					preserveDrawingBuffer	: true	// to allow screenshot
+				});
+				renderer.setClearColor( 0xbbbbbb );
+			}else{
+				renderer	= new THREE.CanvasRenderer();
+			}
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			document.getElementById('container').appendChild(renderer.domElement);
+
+
+			// create a scene
+			scene = new THREE.Scene();
+
+			// put a camera in the scene
+			camera	= new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 10000 );
+			camera.position.set(0, 0, 5);
+			scene.add(camera);
+
+			// create a camera contol
+			cameraControls	= new THREEx.DragPanControls(camera)
+
+			// transparently support window resize
+			THREEx.WindowResize.bind(renderer, camera);
+			// allow 'p' to make screenshot
+			THREEx.Screenshot.bindKey(renderer);
+			// allow 'f' to go fullscreen where this feature is supported
+			if( THREEx.FullScreen.available() ){
+				THREEx.FullScreen.bindKey();		
+				document.getElementById('inlineDoc').innerHTML	+= "- <i>f</i> for fullscreen";
+			}
+
+			// here you add your objects
+			// - you will most likely replace this part by your own
+			var light	= new THREE.AmbientLight( Math.random() * 0xffffff );
+			scene.add( light );
+			var light	= new THREE.DirectionalLight( Math.random() * 0xffffff );
+			light.position.set( Math.random(), Math.random(), Math.random() ).normalize();
+			scene.add( light );
+			var light	= new THREE.DirectionalLight( Math.random() * 0xffffff );
+			light.position.set( Math.random(), Math.random(), Math.random() ).normalize();
+			scene.add( light );
+			var light	= new THREE.DirectionalLight( Math.random() * 0xffffff );
+			light.position.set( Math.random(), Math.random(), Math.random() ).normalize();
+			scene.add( light );
+			var light	= new THREE.PointLight( Math.random() * 0xffffff );
+			light.position.set( Math.random()-0.5, Math.random()-0.5, Math.random()-0.5 )
+						.normalize().multiplyScalar(1.2);
+			scene.add( light );
+			var light	= new THREE.PointLight( Math.random() * 0xffffff );
+			light.position.set( Math.random()-0.5, Math.random()-0.5, Math.random()-0.5 )
+						.normalize().multiplyScalar(1.2);
+			scene.add( light );
+			var light	= new THREE.PointLight( Math.random() * 0xffffff );
+			light.position.set( Math.random()-0.5, Math.random()-0.5, Math.random()-0.5 )
+						.normalize().multiplyScalar(1.2);
+			scene.add( light );
+
+			var geometry	= new THREE.CubeGeometry( 2, 2, 2 );
+			var material	= new THREE.MeshPhongMaterial({ambient: 0x808080, color: Math.random() * 0xffffff});
+			var mesh	= new THREE.Mesh( geometry, material ); 
+			scene.add( mesh );
+		}
+
+		// animation loop
+		function animate() {
+
+			// loop on request animation loop
+			// - it has to be at the begining of the function
+			// - see details at http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
+			requestAnimationFrame( animate );
+
+			// do the render
+			render();
+
+		}
+
+		// render the scene
+		function render() {
+			// variable which is increase by Math.PI every seconds - usefull for animation
+			var PIseconds	= Date.now() * Math.PI;
+
+			// update camera controls
+			cameraControls.update();
+
+			// animation of all objects
+			scene.traverse(function(object3d, i){
+				if( object3d instanceof THREE.Mesh === false )	return
+				object3d.rotation.y = PIseconds*0.0003 * (i % 2 ? 1 : -1);
+				object3d.rotation.x = PIseconds*0.0002 * (i % 2 ? 1 : -1);
+			})
+			// animate PointLights
+			scene.traverse(function(object3d, idx){
+				if( object3d instanceof THREE.PointLight === false )	return
+				var angle	= 0.0005 * PIseconds * (idx % 2 ? 1 : -1) + idx * Math.PI/3;
+				object3d.position.set(Math.cos(angle)*3, Math.sin(angle*3)*2, Math.cos(angle*2)).normalize().multiplyScalar(2);
+			})
+
+			// actually render the scene
+			renderer.render( scene, camera );
+		}
+	</script>
+
+<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='//www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXX-X');ga('send','pageview');
+        </script>
+        
+<!-- ADDITIONAL HELPER SCRIPTS -->
+        <script type="text/javascript" src="../js/retina.min.js"></script>
+        
+<!--REMOVE BEFORE GOING LIVE******AUTOUPDATE SCRIPT FOR LOCALHOST-->
+    <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':62182/autorefresh.js"></' + 'script>')</script>
+    </body>
+</html>
